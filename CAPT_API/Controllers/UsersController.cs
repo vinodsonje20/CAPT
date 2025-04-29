@@ -3,11 +3,13 @@ using Application.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CAPT_API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [AllowAnonymous] // <---- THIS
     public class UsersController : ControllerBase
     {
         private readonly IMediator _mediator;

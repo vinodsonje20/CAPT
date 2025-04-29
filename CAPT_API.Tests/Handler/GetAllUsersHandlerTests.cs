@@ -28,7 +28,7 @@ namespace CAPT_API.Tests.Handler
         [Fact]
         public async Task GetAllUsers_ReturnsListOfUsers()
         {
-            var handler = new GetAllUsersHandler(_repositoryMock.Object, _mapper);
+            var handler = new GetAllUsersQueryHandler(_repositoryMock.Object, _mapper);
 
             var result = await handler.Handle(new GetAllUsersQuery(), CancellationToken.None);
 

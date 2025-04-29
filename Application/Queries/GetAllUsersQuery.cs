@@ -13,12 +13,12 @@ namespace Application.Queries
 {
     public class GetAllUsersQuery : IRequest<List<UserDto>> { }
 
-    public class GetAllUsersHandler : IRequestHandler<GetAllUsersQuery, List<UserDto>>
+    public class GetAllUsersQueryHandler : IRequestHandler<GetAllUsersQuery, List<UserDto>>
     {
         private readonly IRepository<User> _repository;
         private readonly IMapper _mapper;
 
-        public GetAllUsersHandler(IRepository<User> repository, IMapper mapper)
+        public GetAllUsersQueryHandler(IRepository<User> repository, IMapper mapper)
         {
             _repository = repository;
             _mapper = mapper;

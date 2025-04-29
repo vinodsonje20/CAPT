@@ -11,8 +11,15 @@ using Microsoft.OpenApi.Models;
 using NLog;
 using NLog.Extensions.Logging;
 using NLog.Web;
+using CAPT_API.Extentation;
+using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Builder;
+
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddAuthentication("Negotiate")
+    .AddNegotiate();
 
 // Set up NLog
 NLog.LogManager.Setup().LoadConfigurationFromFile("NLog.config");
@@ -24,21 +31,23 @@ builder.Logging.AddNLog();
 // Add Controllers
 builder.Services.AddControllers();
 
-// Add FluentValidation
-builder.Services.AddFluentValidationAutoValidation();
-builder.Services.AddValidatorsFromAssemblyContaining<CreateUserCommandValidator>();
-
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Add Repository
-builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+// Add Services Extentation Method To Register All Services 
+builder.Services.AddServiceRegistration();
 
-// Add MediatR
-builder.Services.AddMediatR(typeof(CreateUserCommandHandler).Assembly);
-
-// Add AutoMapper
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+// Add CORS service
+builder.Services.AddCors(options =>
+{
+    // Define CORS policies here
+    options.AddPolicy("CAPTPolicy", policy =>
+    {
+        policy.WithOrigins("http://capt.starda.com", "*") // Allow specific origins
+               .WithMethods("GET", "POST","PUT","DELETE")  // Allow specific methods
+               .WithHeaders("Content-Type"); // Allow specific headers
+    });
+});
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -63,6 +72,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 
