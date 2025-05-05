@@ -16,7 +16,6 @@ namespace CAPT_API.Tests.Handler
     {
         private readonly Mock<IRepository<User>> _repositoryMock;
         
-
         public UpdateUserHandlerTests()
         {
             _repositoryMock = RepositoryMock.GetUserRepository();

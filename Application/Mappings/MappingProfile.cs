@@ -1,5 +1,6 @@
 ﻿using Application.DTOs;
 using AutoMapper;
+using AutoMapper.Features;
 using Infrastructure.Data.Models;
 using System;
 using System.Collections.Generic;
@@ -11,8 +12,12 @@ namespace Application.Mappings
 {
     public class MappingProfile : Profile
     {
-        public MappingProfile() {
+        public MappingProfile() 
+        {
             CreateMap<User, UserDto>(); // 👈 This tells AutoMapper how to map
+            CreateMap<CheckType, CheckTypeDto>();
+            CreateMap<Feature, FeatureDto>();
+            CreateMap<Roles, RolesDto>();
         }
     }
 }

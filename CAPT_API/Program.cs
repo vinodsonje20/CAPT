@@ -51,7 +51,6 @@ builder.Services.AddCors(options =>
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "CAPT API", Version = "v1" });
@@ -67,7 +66,7 @@ if (app.Environment.IsDevelopment())
     {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "CAPT API V1");
         // Optional: serve swagger UI at root (localhost:7044)
-        c.RoutePrefix = "/swagger";
+        c.RoutePrefix = "swagger";
     });
 }
 

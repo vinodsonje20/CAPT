@@ -12,7 +12,7 @@ namespace Application.Validators
     {
         public DeleteUserCommandValidator() {
             RuleFor(x => x.Id)
-                   .NotEmpty().WithMessage("Employee Id is required.");
+                   .NotEmpty().WithMessage("User Id is required.");
         }
     }
 }

@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace CAPT_API.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [AllowAnonymous] // <---- THIS
     public class UsersController : ControllerBase
     {
@@ -26,7 +26,7 @@ namespace CAPT_API.Controllers
         {
             _logger.LogInformation("Creating Users...");
             var id = await _mediator.Send(command);
-            return CreatedAtAction(nameof(Get), new { id }, null);
+            return CreatedAtAction(nameof(GetAllUsers), new { id }, null);
         }
 
         [HttpPut("{id}")]
@@ -47,7 +47,7 @@ namespace CAPT_API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> GetAllUsers()
         {
             var result = await _mediator.Send(new GetAllUsersQuery());
             return Ok(result);
@@ -60,6 +60,5 @@ namespace CAPT_API.Controllers
             if (user == null) return NotFound();
             return Ok(user);
         }
-
     }
 }
