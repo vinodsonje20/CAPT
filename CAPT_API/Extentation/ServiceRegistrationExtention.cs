@@ -2,6 +2,7 @@
 using Application.DTOs;
 using Application.Mappings;
 using Application.Queries;
+using Application.Services.Email;
 using Application.Validators;
 using Domain.Interfaces;
 using FluentValidation;
@@ -84,6 +85,10 @@ namespace CAPT_API.Extentation
             services.AddTransient<IRequestHandler<DeleteMasterCommand<Location>, bool>, DeleteMasterCommandHandler<Location>>();
             services.AddTransient<IRequestHandler<DeleteMasterCommand<ServiceType>, bool>, DeleteMasterCommandHandler<ServiceType>>();
             services.AddTransient<IRequestHandler<DeleteMasterCommand<TransactionType>, bool>, DeleteMasterCommandHandler<TransactionType>>();
+
+            // Email Services
+            services.AddScoped<IEmailService, EmailService>();
+            services.AddSingleton<EmailTemplateEngine>();
         }
     }
 }

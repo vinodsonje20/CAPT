@@ -4,6 +4,8 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
+using Infrastructure.Data.Models;
+using Application.Services.Email;
 
 namespace CAPT_API.Controllers
 {
@@ -14,10 +16,11 @@ namespace CAPT_API.Controllers
     {
         private readonly IMediator _mediator;
         private readonly ILogger<UsersController> _logger;
-
-        public UsersController(IMediator mediator, ILogger<UsersController> logger)
+        private readonly IEmailService _emailService;
+        public UsersController(IMediator mediator, IEmailService emailService, ILogger<UsersController> logger)
         {
             _mediator = mediator;
+            _emailService = emailService;
             _logger = logger;
         }
 
@@ -26,6 +29,17 @@ namespace CAPT_API.Controllers
         {
             _logger.LogInformation("Creating Users...");
             var id = await _mediator.Send(command);
+
+            await _emailService.SendEmailAsync(
+                    "test@abc.com",
+                    "Welcome!",
+                    "WelcomeTemplate.html",
+                    new Dictionary<string, string>
+                    {
+                        { "UserName", command.Name },
+                        { "ActivationLink", "https://yourdomain.com/activate?token=abc123" }
+                    });
+
             return CreatedAtAction(nameof(GetAllUsers), new { id }, null);
         }
 

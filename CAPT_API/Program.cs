@@ -14,6 +14,7 @@ using NLog.Web;
 using CAPT_API.Extentation;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Builder;
+using Application.Services.Email;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -35,6 +36,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Add Services Extentation Method To Register All Services 
+builder.Services.Configure<EmailSettings>(
+    builder.Configuration.GetSection("Email"));
 builder.Services.AddServiceRegistration();
 
 // Add CORS service
